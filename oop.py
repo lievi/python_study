@@ -56,9 +56,40 @@ class Employee(object):
         return True
 
 
-emp_1 = Employee('Corey', 'Schafer', 50000)
-emp_2 = Employee('John', 'Doe', 60000)
+class Developer(Employee):
+    def __init__(self, first, last, pay, prog_lang):
+        # O super() meio que chama a função do pai
+        super().__init__(first, last, pay)
+        self.prog_lang = prog_lang
 
-import datetime
-my_date = datetime.date(2006, 7, 10)
-print(Employee.is_workday(my_date))
+
+class Manager(Employee):
+
+    def __init__(self, first, last, pay, employees=None):
+        super().__init__(first, last, pay)
+        if employees is None:
+            self.employees = []
+        else:
+            self.employees = employees
+
+    def add_emp(self, emp):
+        if emp not in self.employees:
+            self.employees.append(emp)
+
+    def remove_emp(self, emp):
+        if emp in self.employees:
+            self.employees.remove(emp)
+
+    def print_emp(self):
+        for emp in self.employees:
+            print('-->', emp.fullname())
+
+    raise_amount = 1.10
+
+
+emp_1 = Developer('Corey', 'Schafer', 50000, 'Python')
+emp_2 = Developer('John', 'Doe', 60000, 'C#')
+
+mgr_1 = Manager('Sue', 'Smith', 90000, [emp_1])
+
+print(issubclass(Developer, Manager))
