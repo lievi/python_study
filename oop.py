@@ -15,8 +15,8 @@ class Employee:
         """
         self.first = first
         self.last = last
-        self.email = "{}.{}@email.com".format(
-            self.first.lower(), self.last.lower())
+        self.email = "{}.{}@email.com".format(self.first.lower(),
+                                              self.last.lower())
         self.pay = pay
 
     def fullname(self) -> str:
@@ -29,6 +29,19 @@ class Employee:
         """
         self.pay = int(self.pay * self.raise_amt)
 
+    def __repr__(self):
+        return "Employee('{}', '{}', '{}')".format(self.first, self.last,
+                                                   self.pay)
+
+    def __str__(self):
+        return '{} - {}'.format(self.fullname(), self.email)
+
+    def __add__(self, other):
+        return self.pay + other.pay
+
+    def __len__(self):
+        return len(self.fullname())
+
 
 class Developer(Employee):
     raise_amt = 1.10
@@ -39,8 +52,11 @@ class Developer(Employee):
 
 
 class Manager(Employee):
-
-    def __init__(self, first: str, last: str, pay: int, employees: List[Employee] = None):
+    def __init__(self,
+                 first: str,
+                 last: str,
+                 pay: int,
+                 employees: List[Employee] = None):
 
         super().__init__(first, last, pay)
         if employees is None:
@@ -64,16 +80,6 @@ class Manager(Employee):
 dev_1 = Developer("lievi", "silva", 50000, "python")
 dev_2 = Developer("John", "DOE", 30000, 'C#')
 
-mng_1 = Manager("Sue", "smith", 90000, "nhjas")
+mng_1 = Manager("Sue", "smith", 90000, [dev_1])
 
-print(mng_1.email)
-mng_1.add_emp(dev_2)
-mng_1.remove_emp(dev_1)
-mng_1.print_emps()
-
-# print(dev_1.fullname())
-# print(dev_2.prog_lang)
-
-# print(dev_1.pay)
-# dev_1.apply_raise()
-# print(dev_1.pay)
+print(len(mng_1))
