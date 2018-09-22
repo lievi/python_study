@@ -1,7 +1,7 @@
 from typing import List
 
 
-class Employee:
+class Employee():
 
     raise_amt = 1.04
 
@@ -15,14 +15,29 @@ class Employee:
         """
         self.first = first
         self.last = last
-        self.email = "{}.{}@email.com".format(self.first.lower(),
-                                              self.last.lower())
         self.pay = pay
 
+    @property
+    def email(self):
+        return "{}.{}@email.com".format(self.first.lower(), self.last.lower())
+
+    @property
     def fullname(self) -> str:
         """Retorna o Nome e Sobrenome do empregado.
         """
         return "{} {}".format(self.first.capitalize(), self.last.capitalize())
+
+    @fullname.setter
+    def fullname(self, name):
+        first, last = name.split(" ")
+        self.first = first
+        self.last = last
+
+    @fullname.deleter
+    def fullname(self):
+        print("Delete name")
+        self.first = None
+        self.last = None
 
     def apply_raise(self):
         """Aplica aumento no salário do empregado.
@@ -82,4 +97,7 @@ dev_2 = Developer("John", "DOE", 30000, 'C#')
 
 mng_1 = Manager("Sue", "smith", 90000, [dev_1])
 
-print(len(mng_1))
+print(dev_1.first)
+dev_1.fullname = "Vida Loka"
+print(dev_1.email)
+del dev_1.fullname
